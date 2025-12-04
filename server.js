@@ -18,39 +18,55 @@ app.post("/api/ai-suggest", async (req, res) => {
   try {
     const { preferences, ingredients } = req.body;
 
+    // 🔥 NY SUPERSTRIKT PROMPT – 2 RETTER + NAVN ER PÅBUDT
     const prompt = `
-You MUST reply ONLY with valid JSON in this exact structure:
+You MUST reply ONLY with valid JSON.
+
+Generate EXACTLY two recipes. 
+Each recipe MUST include ALL of these fields:
 
 {
-  "time": 20,
-  "ingredients": [
-    { "item": "text", "quantity": "text", "notes": "text" }
-  ],
-  "steps": [
-    "text step 1",
-    "text step 2"
+  "recipes": [
+    {
+      "name": "Dish name (mandatory!)",
+      "time": 20,
+      "ingredients": [
+        { "item": "text", "quantity": "text", "notes": "text" }
+      ],
+      "steps": ["text step 1", "text step 2"]
+    },
+    {
+      "name": "Dish name (mandatory!)",
+      "time": 20,
+      "ingredients": [
+        { "item": "text", "quantity": "text", "notes": "text" }
+      ],
+      "steps": ["text step 1", "text step 2"]
+    }
   ]
 }
 
 STRICT RULES:
-- NO code blocks.
+- BOTH recipes MUST include a "name".
+- Names must be real dish names, not generic text.
 - NO markdown.
+- NO code blocks.
 - NO explanations.
 - NO text outside the JSON.
-- Only valid JSON.
+- ONLY raw JSON.
 
 User preferences: ${preferences.join(", ")}
 Selected ingredients: ${ingredients.join(", ")}
 `;
 
-    const apiKey = process.env.GOOGLE_API_KEY; // 👈 VIKTIG: SAMME SOM I .env
+    const apiKey = process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
       console.error("❌ GOOGLE_API_KEY mangler i .env");
       return res.status(500).json({ error: "Server mangler API-nøkkel" });
     }
 
-    // --- KALL GEMINI VIA REST ---
+    // 🔥 GEMINI API – REST KALL
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
@@ -65,10 +81,9 @@ Selected ingredients: ${ingredients.join(", ")}
     const result = await response.json();
     console.log("GEMINI RAW:", result);
 
-    // Hvis API returnerer error, vis den tydelig
     if (result.error) {
       console.error("❌ GEMINI ERROR:", result.error);
-      return res.status(500).json({ error: result.error.message || "AI error" });
+      return res.status(500).json({ error: result.error.message });
     }
 
     const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -77,13 +92,13 @@ Selected ingredients: ${ingredients.join(", ")}
       return res.status(500).json({ error: "AI returned no text" });
     }
 
-    // --- CLEAN JSON EXTRACTION ---
+    // 🔥 EKSTRAKSJON AV JSON
     const start = text.indexOf("{");
     const end = text.lastIndexOf("}");
 
     if (start === -1 || end === -1) {
-      console.error("AI did NOT return JSON text:", text);
-      throw new Error("AI did NOT return JSON");
+      console.error("❌ AI did NOT return JSON:", text);
+      return res.status(500).json({ error: "AI returned invalid format" });
     }
 
     const jsonString = text.substring(start, end + 1);
@@ -91,12 +106,27 @@ Selected ingredients: ${ingredients.join(", ")}
     let json;
     try {
       json = JSON.parse(jsonString);
-    } catch (parseErr) {
-      console.error("JSON PARSE ERROR:", parseErr);
+    } catch (err) {
+      console.error("❌ JSON PARSE ERROR:", err);
       console.log("BROKEN JSON:", jsonString);
       return res.status(500).json({ error: "AI returned invalid JSON" });
     }
 
+    // 🔥 VALIDERING – MÅ HA 2 RETTER + NAVN
+    if (!json.recipes || json.recipes.length !== 2) {
+      return res.status(500).json({ error: "AI returned wrong recipe count" });
+    }
+
+    for (const recipe of json.recipes) {
+      if (!recipe.name || recipe.name.trim() === "") {
+        return res.status(500).json({ error: "AI returned recipe without name" });
+      }
+      if (!recipe.ingredients || !recipe.steps) {
+        return res.status(500).json({ error: "Incomplete recipe" });
+      }
+    }
+
+    // ALT OK
     return res.json(json);
 
   } catch (error) {
@@ -105,7 +135,7 @@ Selected ingredients: ${ingredients.join(", ")}
   }
 });
 
-// --- START SERVER ---
+// 🚀 START SERVER
 app.listen(3001, () =>
   console.log("✅ Backend kjører på http://localhost:3001")
 );

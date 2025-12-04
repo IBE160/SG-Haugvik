@@ -1,29 +1,31 @@
 import { useState } from "react";
-import PreferenceSelector from "./components/PreferenceSelector";
 import IngredientSelector from "./components/IngredientSelector";
 import AiButton from "./components/AiButton";
 import RecipeResults from "./components/RecipeResults";
 
-// 💡 Samme type som backend svarer med (server.js)
 export type Ingredient = {
   item: string;
   quantity: string;
   notes: string;
 };
 
-export type RecipeResultData = {
+export type SingleRecipe = {
+  name: string;
   time: number;
   ingredients: Ingredient[];
   steps: string[];
 };
 
+export type RecipesResponse = {
+  recipes: SingleRecipe[];
+};
+
 function App() {
-  const [preferences, setPreferences] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // 👉 ÉN oppskrift om gangen (ikke liste ennå)
-  const [recipe, setRecipe] = useState<RecipeResultData | null>(null);
+  // 👉 Nå lagrer vi en LISTE av oppskrifter, ikke én
+  const [recipes, setRecipes] = useState<SingleRecipe[]>([]);
 
   const generateRecipes = async () => {
     try {
@@ -33,23 +35,21 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          preferences,
+          preferences: [],
           ingredients,
         }),
       });
 
-      if (!response.ok) {
-        console.error("Feil fra server:", response.statusText);
-        setRecipe(null);
-        return;
-      }
+      const data: RecipesResponse = await response.json();
 
-      const data = await response.json();
-      // 🔥 Forventer { time, ingredients: [...], steps: [...] }
-      setRecipe(data);
+      if (data.recipes) {
+        setRecipes(data.recipes);
+      } else {
+        setRecipes([]);
+      }
     } catch (error) {
       console.error("AI fetch error:", error);
-      setRecipe(null);
+      setRecipes([]);
     } finally {
       setLoading(false);
     }
@@ -61,13 +61,6 @@ function App() {
         KidChef 🍳👩‍🍳
       </h1>
 
-      {/* 
-<PreferenceSelector
-  selected={preferences}
-  onChange={setPreferences}
-/>
-*/}
-
       <IngredientSelector
         selected={ingredients}
         onChange={setIngredients}
@@ -75,8 +68,8 @@ function App() {
 
       <AiButton onGenerate={generateRecipes} loading={loading} />
 
-      {/* Vis kun hvis vi faktisk har en oppskrift */}
-      {recipe && <RecipeResults result={recipe} />}
+      {/* VIS LISTE AV OPPSKRIFTER */}
+      {recipes.length > 0 && <RecipeResults recipes={recipes} />}
     </div>
   );
 }
