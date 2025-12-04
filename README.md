@@ -1,73 +1,125 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+KidChef – AI-basert middagsgenerator 
 
-Currently, two official plugins are available:
+KidChef er en brukervennlig webapplikasjon som genererer barnevennlige middagstips basert på brukerens preferanser og ingredienser. Appen bruker Google Gemini som KI-motor og er bygget med React + TypeScript (frontend) og Node.js + Express (backend).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Funksjoner
 
-## React Compiler
+Velg preferanser (quick, pasta, chicken, vegetarian, something new)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Skriv inn ingredienser du har tilgjengelig
 
-## Expanding the ESLint configuration
+Få AI-genererte middagsforslag
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Inkluderer ingrediensliste og steg-for-steg-instruksjoner
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Robust håndtering av JSON fra Gemini
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Teknologistack
+Frontend
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+React
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+TypeScript
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Vite
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Backend
+
+Node.js
+
+Express
+
+Google Gemini (gemini-2.5-flash)
+
+Utviklingsverktøy
+
+VS Code
+
+Git & GitHub
+
+Browser DevTools
+
+Installasjon
+1. Klon prosjektet
+
+git clone https://github.com/
+<ditt-brukernavn>/kidchef-app.git
+cd kidchef-app
+
+2. Installer avhengigheter
+
+npm install
+
+3. Opprett .env
+
+Lag en .env i rotmappen:
+
+GEMINI_API_KEY=DIN_API_NOKKEL
+PORT=3001
+
+4. Start applikasjonen
+
+Backend:
+npm run server
+
+Frontend:
+npm run dev
+
+Frontend kjører på: http://localhost:5173
+
+Backend kjører på: http://localhost:3001
+
+Prosjektstruktur
+
+kidchef-app/
+├── server.js
+├── src/
+│ ├── components/
+│ ├── pages/
+│ ├── App.tsx
+│ └── main.tsx
+├── package.json
+├── .env
+└── README.md
+
+Hvordan KI brukes
+
+Backend sender prompt til Gemini
+
+Gemini genererer oppskrift
+
+Backend henter ut JSON og validerer
+
+Frontend viser oppskrift med ingredienser og steg
+
+Vanlige problemer
+Gemini returnerer ikke gyldig JSON
+
+Backend løser det ved å hente teksten mellom første { og siste }.
+
+Modellfeil (404)
+
+Bruk riktig modellnavn:
+gemini-2.5-flash
+
+CORS-feil
+
+Backend må ha:
+
+app.use(cors({ origin: "http://localhost:5173
+" }));
+
+Videre arbeid
+
+Favorittoppskrifter
+
+Flere preferanser
+
+Bedre UI
+
+Hosting på GitHub Pages eller Vercel
+
+Lisens
+
+MIT License.
