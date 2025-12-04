@@ -19,7 +19,7 @@ export type RecipeResultData = {
 
 function App() {
   const [preferences, setPreferences] = useState<string[]>([]);
-  const [ingredients, setIngredients] = useState<string>("");
+  const [ingredients, setIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   // 👉 ÉN oppskrift om gangen (ikke liste ennå)
