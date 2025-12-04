@@ -672,13 +672,13 @@ Det gjør refleksjonsdelen enklere og forbedrer egen læring.
 
 ### 7.4 Personlig refleksjon (individuelt)
 **[Anette Haugvik]:**
-Jeg har jobbet noen år i utviklingsprosjekt som både funskjonell resurss og teknisk. jeg går mer og mer over i teknisk. Men å kombinere den erfaringen og med AI nå, det er veldig nyttig, og gjennom dette prosjektet har jeg lært enda mer om dette. 
+Gjennom dette prosjektet opplevde jeg hvordan KI kan fungere både som en kraftig støtte i utviklingsarbeid og som en kilde til nye typer utfordringer. Jeg lærte tidlig at bruk av KI ikke handler om å generere kode automatisk, men om å stille presise spørsmål, forstå svarene og kontinuerlig vurdere kvaliteten på det som produseres.
 
-Gjennom dette prosjektet har jeg opplevd hvordan KI både kan være en ekstremt nyttig samarbeidspartner og en kilde til frustrasjon. Jeg lærte at utvikling med KI ikke handler om å trykke “generate code”, men om dialog, presisjon og forståelse. 
+Prosjektet gjorde at jeg måtte sette meg grundig inn i teknologier som React, Express, API-integrasjon og JSON-håndtering. KI ga raske forslag, men jeg måtte selv forstå hvorfor ting fungerte – eller ikke fungerte. Denne prosessen gjorde at jeg lærte mer enn jeg ville gjort ved kun å følge tradisjonelle tutorials eller oppskrifter.
 
-Jeg fikk også mye praktisk erfaring med React, Express, API-integrasjon og JSON-håndtering – langt mer enn jeg ville fått uten KI fordi jeg måtte forstå hvorfor ting ikke fungerte. Det var krevende, men veldig lærerikt.
+Jeg erfarte også hvor viktig det er å gi KI tydelig kontekst og rammer. Uten klare instruksjoner blir resultatet fort for kreativt, feilstrukturert eller irrelevant. Når jeg derimot justerte promptene og satte tydelige krav, ble output mer stabil og nyttig. Dette ga meg bedre innsikt i hvordan dialogen med KI er en del av selve utviklingsarbeidet.
 
-jeg opplevde at KI kan senke barrierer og gjøre det lettere å utforske nye teknologier.
+Prosjektet har gjort meg mer bevisst på både styrkene og begrensningene ved KI. Jeg ser tydelig at KI kan senke terskelen for å utforske nye områder, men at det likevel er utviklerens ansvar å forstå helheten, validere løsninger og sikre kvalitet. Denne balansen mellom automatisering og teknisk forståelse er noe jeg tar med videre.
 
 
 
