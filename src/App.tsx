@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PreferenceSelector from "./components/PreferenceSelector";
-import RecipeInput from "./components/RecipeInput";
+import IngredientSelector from "./components/IngredientSelector";
 import AiButton from "./components/AiButton";
 import RecipeResults from "./components/RecipeResults";
 
@@ -61,13 +61,15 @@ function App() {
         KidChef 🍳👩‍🍳
       </h1>
 
-      <PreferenceSelector
-        selected={preferences}
-        onChange={setPreferences}
-      />
+      {/* 
+<PreferenceSelector
+  selected={preferences}
+  onChange={setPreferences}
+/>
+*/}
 
-      <RecipeInput
-        value={ingredients}
+      <IngredientSelector
+        selected={ingredients}
         onChange={setIngredients}
       />
 

@@ -43,9 +43,16 @@ User preferences: ${preferences.join(", ")}
 Selected ingredients: ${ingredients.join(", ")}
 `;
 
-    // --- SEND REQUEST TO GEMINI ---
+    const apiKey = process.env.GOOGLE_API_KEY; // 👈 VIKTIG: SAMME SOM I .env
+
+    if (!apiKey) {
+      console.error("❌ GOOGLE_API_KEY mangler i .env");
+      return res.status(500).json({ error: "Server mangler API-nøkkel" });
+    }
+
+    // --- KALL GEMINI VIA REST ---
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -58,7 +65,12 @@ Selected ingredients: ${ingredients.join(", ")}
     const result = await response.json();
     console.log("GEMINI RAW:", result);
 
-    // Extract AI text safely
+    // Hvis API returnerer error, vis den tydelig
+    if (result.error) {
+      console.error("❌ GEMINI ERROR:", result.error);
+      return res.status(500).json({ error: result.error.message || "AI error" });
+    }
+
     const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
@@ -70,6 +82,7 @@ Selected ingredients: ${ingredients.join(", ")}
     const end = text.lastIndexOf("}");
 
     if (start === -1 || end === -1) {
+      console.error("AI did NOT return JSON text:", text);
       throw new Error("AI did NOT return JSON");
     }
 

@@ -12,7 +12,11 @@
 ## 2. Utviklingsprosessen
 
 ### 2.1 Oversikt over prosjektet
-I dette prosjektet utviklet jeg en enkel og brukervennlig webapplikasjon kalt KidChef, som genererer barnevennlige middagstips ved hjelp av kunstig intelligens. Brukeren kan velge ulike preferanser (for eksempel quick, pasta, chicken eller vegetarian), skrive inn ingredienser de allerede har hjemme, og deretter få et AI-generert middagstips med både ingrediensliste og steg-for-steg-instruksjoner.
+I dette prosjektet utviklet jeg en enkel og brukervennlig webapplikasjon kalt KidChef, som genererer barnevennlige middagstips ved hjelp av kunstig intelligens. Brukeren kan velge ulike preferanser (for eksempel quick, pasta, chicken eller vegetarian), skrive inn ingredienser de allerede har hjemme, og deretter få et AI-generert middagstips med både ingrediensliste og steg-for-steg-instruksjoner. 
+(feature til selve appen:
+1. er at de får opp 3 forskjellige alternativer, så de kan velge hvilken av de de vil lage
+2. Mer bilder
+3. At de kan spør ai hvis de lurer på spørsmål)
 
 I tillegg til å utforske KI-drevet utvikling var et viktig mål å lage et verktøy som senker terskelen for barn og unge til å delta på kjøkkenet. Målet var å bidra til økt selvstendighet, mestringsfølelse og kreativitet, ved at appen gir trygge, tydelige og tilgjengelige instrukser som gjør matlaging mindre skummelt og mer motiverende for barn.
 
@@ -99,8 +103,10 @@ I prosjektet brukte jeg en kombinasjon av moderne webteknologier og KI-verktøy.
 - dotenv (for sikker håndtering av API-nøkler)
 
 **KI-verktøy**
-- Google Gemini API
-Brukt til å generere oppskrifter basert på preferanser og ingredienser
+- Google Gemini API  
+  Brukt til å generere oppskrifter basert på preferanser og ingredienser.  
+  Jeg brukte Gemini sitt REST-API direkte i backend fordi SDK-ene enten manglet riktig modell eller ga ustabile 404-feil. REST-kallet ble dermed den eneste stabile løsningen.
+ 
 - ChatGPT (GPT-5.1)
 Brukt som supervisor, programmerer, kvalitetssikrer, arkitekt og generell sparringspartner
 Hjalp spesielt med: arkitekturvalg, feilretting, React-komponenter, backend-feil, parsing av JSON og modellvalg
@@ -230,23 +236,27 @@ KI var både årsaken og løsningen.
 Den skapte problemet ved å være uforutsigbar, men hjalp meg også å designe en failsafe strategi. Gjennom iterativ dialog utviklet jeg en parser som tok høyde for KI-modellers svakheter. Dette ga god innsikt i hvorfor man aldri kan stole blindt på KI-formatert tekst i produksjonssystemer.
 
 **Utfordring 3: [404]**
-- Problem: 
-En annen sentral utfordring var at Gemini-modellene som vises i Google AI Studio **ikke nødvendigvis er de samme som støttes av API-et**. Jeg fikk gjentatte ganger denne feilen:  
-**“models/gemini-1.5-flash is not found for API version v1beta …”**  
-selv om modellen så helt riktig ut i UI.  
-Dette var forvirrende, og gjorde at backend ikke klarte å generere noe innhold. Jeg måtte derfor forstå forskjellen mellom:
-* UI-modellnavn  
-* REST API-modellnavn  
-* modellversjoner  
-* preview vs. stable  
+Problem:
+En sentral utfordring var at modellene som vises i Google AI Studio ikke er de samme modellnavnene som API-et faktisk støtter.
+Backend fikk gjentatte ganger feilen:
+“models/gemini-1.5-flash is not found for API version v1beta …”
+selv om modellen eksisterte i UI.
+Dette skyldes at Google AI Studio viser UI-modellnavn som ikke samsvarer med modellnavnene API-et faktisk bruker.
 
-- Løsning: 
-Jeg testet “List Models”-endpointet og fant hvilke modeller som faktisk støttes i API-et. Der fant jeg at riktig modell var:  
-`models/gemini-2.5-flash:generateContent`  
-Når jeg byttet til denne, fungerte alt umiddelbart.
+Dette gjorde at backend ikke klarte å generere innhold, og jeg måtte forstå forskjellen mellom:
 
-- KI sin rolle: 
-KI hjalp først ved å foreslå ulike modeller og oppdatere backend-koden, men foreslo også feil flere ganger. Dette førte til 404-feilene. Men KI hjalp også med å forklare hva "List Models"-endpointet betyr, og hvordan jeg kan verifisere støttede modeller selv. Denne prosessen gjorde at jeg lærte hvordan man jobber med API-dokumentasjon på en bedre måte.
+- modellnavn i UI
+- modellnavn i REST API
+- hvilke versjoner som faktisk støtter generateContent
+- forskjellen mellom preview og stable
+
+Løsning:
+Jeg hentet en liste over støttede modeller via ListModels-endpointet og fant at API-et ikke støttet modellen jeg brukte. Riktig og stabil modell var:
+models/gemini-2.5-flash:generateContent
+Etter å ha byttet til denne modellen fungerte backend umiddelbart uten 404-feil.
+
+KI sin rolle:
+KI foreslo flere modellnavn, men noen av dem var feil eller ikke kompatible med API-versjonen, noe som skapte 404-feil. Samtidig hjalp KI med å forklare hvordan modellversjoner fungerer, og hvordan ListModels kan brukes for å verifisere hvilke modeller som faktisk er tilgjengelige. Dette gav bedre forståelse av dokumentasjon og API-håndtering.
 
 
 ### 3.2 Samarbeidsutfordringer
@@ -381,14 +391,16 @@ Selv når KI foreslo “feil” kode, førte det til diskusjon og justeringer so
 ### 4.2 Begrensninger og ulemper
 
 **Kvalitet og pålitelighet:**
-En av de mest utfordrende aspektene var at KI ikke alltid ga korrekt eller fungerende kode. Outputen kunne variere hver gang, selv når prompten var identisk. Dette gjorde utviklingen mindre forutsigbar.
-Eksempler:
-- Feil modellnavn i Gemini API, noe som førte til flere 404 NOT FOUND-feil. KI foreslo modeller som ikke eksisterte eller ikke støttet generateContent.
-- Kode som ikke kompilerte, spesielt i React (f.eks. feil props, manglende types, feil JSX-strukturer).
-- AI genererte JSON med backticks eller kodeblokker, noe som førte til parsing-feil i backend. KI fulgte altså ikke sin egen instruksjon om å "kun returnere ren JSON".
-- Modellen endret struktur på responsen — noen ganger kom svaret i arrays, andre ganger uten arrays, noe som gjorde frontend-logikken ustabil.
+Kvalitet og pålitelighet:
+En av de største utfordringene var at KI ikke alltid leverte korrekt eller fungerende kode. Selv med identiske prompts kunne output variere betydelig, noe som gjorde utviklingen mindre forutsigbar. Dette skapte flere konkrete problemer:
 
-Dette viser at KI ikke garanterer pålitelighet, og at menneskelig overprøving fortsatt er kritisk for kvaliteten.
+- Feil modellnavn i Gemini API, som førte til gjentatte 404-feil fordi KI foreslo modeller som ikke eksisterte eller ikke støttet generateContent.
+- En del av feilene skyldtes også at Google AI Studio viste modellnavn som ikke finnes i API-et, noe som skapte uklarhet og førte til flere 404-feil.
+- Kode som ikke kompilerte, spesielt i React – f.eks. feil props, manglende typer eller ugyldig JSX.
+- Ugyldig JSON, hvor AI returnerte kodeblokker, backticks eller tekst blandet med JSON, noe som førte til parsing-feil i backend.
+- Ustabil responsstruktur, der KI noen ganger returnerte arrays og andre ganger ikke, noe som gjorde frontend-logikken uforutsigbar.
+
+Disse utfordringene viser at KI ikke kan regnes som en pålitelig kilde alene, og at menneskelig vurdering og overprøving er helt avgjørende. KI kan bistå, men den krever kontinuerlig kontroll, testing og korrigering for å sikre kvalitet.
 
 **Avhengighet og forståelse:**
 En potensiell ulempe var faren for å bli for avhengig av KI som problemløser. KI kan generere ferdige løsninger uten at brukeren nødvendigvis forstår hele logikken. I enkelte tilfeller oppdaget jeg at:
@@ -525,11 +537,9 @@ Utviklere vil i større grad jobbe som “problemløsere og arkitekter” enn so
 For egen karriere betyr dette at det å kombinere teknisk forståelse med evnen til å bruke KI på en smart måte blir en konkurransefordel. 
 
 ### 5.5 Datasikkerhet og personvern
-- Hvilke data delte dere med KI-verktøy?
-- Potensielle risikoer ved å dele kode og data med KI
-- Hvordan skal man tenke på sikkerhet når man bruker KI?
-
 I dette prosjektet ble ingen persondata delt med KI, men API-forespørsler inneholdt kode, prompts og systeminformasjon. Selv om dette regnes som lav risiko, er det viktig å være bevisst på at KI-tjenester behandler data eksternt.
+
+En ekstra utfordring i prosjektet var håndtering av API-nøkler, som måtte lagres riktig i .env og aldri eksponeres i frontend eller GitHub. Underveis oppstod flere feil relatert til API-autorisasjon, og dette understreket hvor viktig det er å ha kontroll på nøkkelhåndtering og aldri la slike verdier lekke ut.
 
 Risikoer inkluderer uønsket lagring av kode, potensial for datalekkasjer eller at sensitive opplysninger utilsiktet sendes til tredjeparter. Derfor bør man alltid unngå å dele persondata, interne nøkler eller konfidensiell informasjon med KI-verktøy.
 
@@ -592,6 +602,8 @@ Selv om KI kan foreslå løsninger, må utvikleren forstå hva som skjer i syste
 I stedet for lange planleggingsfaser jobbet jeg i små, raske sykluser hvor KI foreslo endringer som jeg testet og justerte.
 6. KI kan fylle mange roller, men ikke ansvar.
 Arkitektur, kvalitet og sikkerhet må fortsatt sikres av utvikleren, selv om KI hjelper til i utførelsen.
+7. Stabilitet krever at utvikleren overstyrer KI når nødvendig.
+Etter at KI foreslo flere modellnavn som ga 404-feil i Gemini API, måtte jeg selv finne riktig modell via ListModels og endre backend fra SDK til ren REST– fordi det var den eneste stabile løsningen.
 
 ### 7.2 Hva ville dere gjort annerledes?
 
