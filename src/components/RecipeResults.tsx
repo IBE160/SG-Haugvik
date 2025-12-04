@@ -1,53 +1,37 @@
-// src/components/RecipeResults.tsx
-import React from "react";
+import type { RecipeResultData } from "../App";
 
-interface Ingredient {
-  item: string;
-  quantity?: string;
-  notes?: string;
-}
+type Props = {
+  result: RecipeResultData;
+};
 
-interface RecipeResultData {
-  time?: string;
-  ingredients?: Ingredient[];
-  steps?: string[];
-}
-
-export default function RecipeResults({ result }: { result: RecipeResultData }) {
-  if (!result || Object.keys(result).length === 0) {
-    return <p>Ingen data</p>;
-  }
-
+export default function RecipeResults({ result }: Props) {
   return (
-    <div style={{ marginTop: "30px", padding: "20px", border: "1px solid #ddd" }}>
-      <h3>Forslag fra KI 👩‍🍳✨</h3>
+    <div className="mt-6 space-y-4">
+      <h2 className="text-2xl font-bold mb-2">Forslag fra KI 🍽️✨</h2>
 
-      {result.time && <p>{result.time} min</p>}
+      <div className="p-4 border rounded-lg shadow-sm bg-white">
+        <p className="text-sm text-gray-600 mb-2">
+          ⏱️ Ca. {result.time} minutter
+        </p>
 
-      <h4>Ingredienser:</h4>
-      {result.ingredients && result.ingredients.length > 0 ? (
-        <ul>
-          {result.ingredients.map((ing: Ingredient, idx: number) => (
+        <h3 className="font-semibold mt-2">Ingredienser:</h3>
+        <ul className="list-disc ml-5 text-gray-700">
+          {result.ingredients.map((ing, idx) => (
             <li key={idx}>
-              <strong>{ing.item}</strong> {ing.quantity || ""}
-              {ing.notes ? ` (${ing.notes})` : ""}
+              <span className="font-medium">{ing.item}</span>
+              {ing.quantity && ` – ${ing.quantity}`}
+              {ing.notes && ` (${ing.notes})`}
             </li>
           ))}
         </ul>
-      ) : (
-        <p>Ingen ingredienser</p>
-      )}
 
-      <h4>Steg:</h4>
-      {result.steps && result.steps.length > 0 ? (
-        <ol>
-          {result.steps.map((s: string, idx: number) => (
-            <li key={idx}>{s}</li>
+        <h3 className="font-semibold mt-4">Steg:</h3>
+        <ol className="list-decimal ml-5 text-gray-700 space-y-1">
+          {result.steps.map((step, idx) => (
+            <li key={idx}>{step}</li>
           ))}
         </ol>
-      ) : (
-        <p>Ingen steg</p>
-      )}
+      </div>
     </div>
   );
 }

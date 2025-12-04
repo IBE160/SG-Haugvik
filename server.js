@@ -22,24 +22,28 @@ app.post("/api/ai-suggest", async (req, res) => {
 You MUST reply ONLY with valid JSON in this exact structure:
 
 {
-  "time": "number",
+  "time": 20,
   "ingredients": [
-      { "item": "text", "quantity": "text", "notes": "text" }
+    { "item": "text", "quantity": "text", "notes": "text" }
   ],
   "steps": [
-      "text step 1",
-      "text step 2"
+    "text step 1",
+    "text step 2"
   ]
 }
 
-NO code blocks.
-NO explanations.
-NO markdown.
+STRICT RULES:
+- NO code blocks.
+- NO markdown.
+- NO explanations.
+- NO text outside the JSON.
+- Only valid JSON.
 
-Preferences: ${preferences.join(", ")}
-Ingredients: ${ingredients}
+User preferences: ${preferences.join(", ")}
+Selected ingredients: ${ingredients.join(", ")}
 `;
 
+    // --- SEND REQUEST TO GEMINI ---
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
@@ -61,7 +65,7 @@ Ingredients: ${ingredients}
       return res.status(500).json({ error: "AI returned no text" });
     }
 
-    // CLEAN JSON EXTRACTION
+    // --- CLEAN JSON EXTRACTION ---
     const start = text.indexOf("{");
     const end = text.lastIndexOf("}");
 
@@ -70,15 +74,25 @@ Ingredients: ${ingredients}
     }
 
     const jsonString = text.substring(start, end + 1);
-    const json = JSON.parse(jsonString);
 
-    res.json(json);
+    let json;
+    try {
+      json = JSON.parse(jsonString);
+    } catch (parseErr) {
+      console.error("JSON PARSE ERROR:", parseErr);
+      console.log("BROKEN JSON:", jsonString);
+      return res.status(500).json({ error: "AI returned invalid JSON" });
+    }
+
+    return res.json(json);
+
   } catch (error) {
     console.error("❌ SERVER AI ERROR:", error);
     res.status(500).json({ error: "AI request failed" });
   }
 });
 
+// --- START SERVER ---
 app.listen(3001, () =>
   console.log("✅ Backend kjører på http://localhost:3001")
 );

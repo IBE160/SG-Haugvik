@@ -1,15 +1,16 @@
-
-Side
-1
-av 4
 # Refleksjonsrapport - Programmering med KI
+
 ## 1. Gruppeinformasjon
-**Gruppenavn:** [Navn på gruppen]
+
+**Gruppenavn:** 
+[SG-Haugvik]
+
 **Gruppemedlemmer:**
-- [Navn 1] - [210637/anette.haugvik@himolde.no]
-**Dato:** [05.12.2025]
+[210637/anette.haugvik@himolde.no]
+[05.12.2025]
 ---
 ## 2. Utviklingsprosessen
+
 ### 2.1 Oversikt over prosjektet
 I dette prosjektet utviklet jeg en enkel og brukervennlig webapplikasjon kalt KidChef, som genererer barnevennlige middagstips ved hjelp av kunstig intelligens. Brukeren kan velge ulike preferanser (for eksempel quick, pasta, chicken eller vegetarian), skrive inn ingredienser de allerede har hjemme, og deretter få et AI-generert middagstips med både ingrediensliste og steg-for-steg-instruksjoner.
 
@@ -23,7 +24,7 @@ Hovedmålet med applikasjonen var todelt:
 - Å skape et verktøy som inspirerer til læring, utforsking og mestring gjennom matlaging, og som gjør det enklere for barn og foreldre å lage middag sammen.
 
 Min arbeidsmåte
-Jeg jobber alltid slik at systemet først skal snakke sammen før jeg bygger funksjonalitet. Det vil si at jeg prioriterer:
+Jeg jobber som regel slik at systemet først skal snakke sammen før jeg bygger funksjonalitet. Det vil si at jeg prioriterer:
 
 - at frontend og backend kommuniserer riktig
 - at API-kall fungerer
@@ -35,12 +36,6 @@ Dette prosjektet følger samme filosofi: det er fortsatt mye igjen av selve feat
 
 
 ### 2.2 Arbeidsmetodikk
-[Beskriv hvordan dere organiserte arbeidet]
-- Hvordan fordelte dere oppgaver?
-- Hvilke verktøy brukte dere for samarbeid og hvordan det fungerte? (f.eks. Git, og
-Teams)
-- Hvordan brukte dere KI-verktøy i prosessen?
-
 Arbeidet ble utført iterativt, der jeg jobbet i korte sykluser med planlegging, implementering, testing og forbedring. Prosessen fungerte slik:
 
 Jeg beskrev behov eller problemer som oppsto.
@@ -91,23 +86,21 @@ KI fungerte som utviklingspartner som forsterket tempo, kvalitet og læring gjen
 ### 2.3 Teknologi og verktøy
 I prosjektet brukte jeg en kombinasjon av moderne webteknologier og KI-verktøy. Disse ble valgt fordi de er enkle å komme i gang med, godt støttet av KI-modeller, og passer godt med målsetningen om å lære AI-drevet utvikling.
 
-Frontend
+**Frontend**
 - React (med hooks som useState)
 - TypeScript (gir bedre feilsøking og forståelse av komponenter)
 - Vite (utviklingsserver og byggverktøy)
 - TailwindCSS (for rask og enkel styling)
 
-Backend
+**Backend**
 - Node.js (runtime-miljø)
 - Express.js (enkel backend med én API-route)
 - CORS (for kommunikasjon mellom server og frontend)
 - dotenv (for sikker håndtering av API-nøkler)
 
-KI-verktøy
-
+**KI-verktøy**
 - Google Gemini API
 Brukt til å generere oppskrifter basert på preferanser og ingredienser
-
 - ChatGPT (GPT-5.1)
 Brukt som supervisor, programmerer, kvalitetssikrer, arkitekt og generell sparringspartner
 Hjalp spesielt med: arkitekturvalg, feilretting, React-komponenter, backend-feil, parsing av JSON og modellvalg
@@ -116,7 +109,6 @@ Hjalp spesielt med: arkitekturvalg, feilretting, React-komponenter, backend-feil
 Utviklingsprosessen fulgte en iterativ modell der jeg byttet mellom rollene kunde, designer, arkitekt, programmerer og tester, mens KI fungerte som både utviklingspartner og supervisor. Under beskrives fasene i prosjektet.
 
 **Planlegging**
-
 I planleggingsfasen jobbet jeg som kunden som beskrev behovet, og som analytiker som definerte hva applikasjonen skulle gjøre. Målet var å skape en enkel og barnevennlig oppskriftsgenerator, der KI skulle foreslå middager basert på brukerens preferanser og ingredienser.
 
 Hva jeg gjorde i denne fasen
@@ -139,7 +131,7 @@ Eksempler på planleggings-prompter
 **Utvikling**
 Denne fasen var den mest omfattende. Jeg jobbet iterativt, og hver feil, hver utfordring og hver nye idé ble håndtert sammen med KI som kvalitetssikrer og programmerer. Dette er fasen som er enda pågående også. 
 
-Frontend-utvikling
+Frontend-utvikling:
 
 Hva jeg gjorde
 - Opprettet React-prosjektet i Vite.
@@ -156,7 +148,9 @@ Hvordan KI ble brukt
 - Forklarte React-feil, spesielt TypeScript-feil.
 - Hjalp med omstrukturering av komponentprops.
 - Foreslo beste praksis for state-håndtering.
-Backend-utvikling
+
+
+Backend-utvikling:
 
 Hva jeg gjorde
 - Opprettet en Express-server med én route: /api/ai-suggest
@@ -184,7 +178,7 @@ Hva jeg gjorde:
 
 **Testing og forbedring**
 
-Hva jeg gjorde:
+Hva jeg gjorde
 
 - Testet applikasjonen gjennom nettleseren.
 - Sjekket feilmeldinger i DevTools og terminal.
@@ -199,6 +193,7 @@ Hvordan KI ble brukt
 
 ---
 ## 3. Utfordringer og løsninger
+
 ### 3.1 Tekniske utfordringer
 
 **Utfordring 1: [Utviklingsmiljøet-krasjet]**
@@ -218,10 +213,10 @@ KI sin rolle:
 KI bidro til å identifisere OneDrive som en potensiell årsak, noe jeg aldri ville tenkt på selv fordi feilene så tilfeldige ut. KI foreslo å flytte prosjektet lokalt, og dette viste seg å være avgjørende for at alt fungerte. Uten KI ville denne feilen sannsynligvis tatt svært mye lenger tid å oppdage og løse.
 
 **Utfordring 2: [Parsing-kollapset]**
-- Problem: Når backend sendte prompt til Gemini-modellen, svarte modellen ofte med JSON pakket inn i markdown-blokker, kode-format, kommentarer eller ekstra tekst. 
+- Problem: 
+Når backend sendte prompt til Gemini-modellen, svarte modellen ofte med JSON pakket inn i markdown-blokker, kode-format, kommentarer eller ekstra tekst. 
 og enkelte ganger tekst før og etter selve objektet.  
-Dette gjorde at `JSON.parse()` i Node førte til runtime-feil:  
-**“Unexpected token '`' … is not valid JSON”**
+Dette gjorde at `JSON.parse()` i Node førte til runtime-feil:  “Unexpected token '`' … is not valid JSON”
 Feilen stoppet hele backend-ruten og gjorde applikasjonen ubrukelig.
 
 - Løsningen ble å implementere en robust parser som:  
@@ -295,8 +290,6 @@ Dette ble møtt ved å:
 - gjenta prosjektinformasjon for å “stabilisere” KI
 - verifisere hvert enkelt svar før implementering
 
-
-
 3. Ugyldig eller ustrukturert JSON-generering fra KI
 
 Når Gemini-modellen ble brukt til å generere selve middagstipsene, oppstod et annet lag av utfordringer. KI-modeller er notorisk ustabile i produksjon av strukturert JSON. I dette prosjektet resulterte det i:
@@ -331,7 +324,7 @@ En utfordring som skapte mye tidstap var at KI foreslo modeller som:
 Håndtering:
 Jeg hentet selv modelloversikten fra Gemini API og oppdaterte serveren basert på dette, i stedet for å stole på KI. Etter dette ble implementeringen mye mer forutsigbar.
 
-5. Kort oppsumert betyr det at:
+**Kort oppsumert betyr det at:**
 
 De KI-relaterte utfordringene i prosjektet var ikke tilfeldige — de illustrerer fundamentale begrensninger i dagens LLM-teknologi når den brukes i programvareutvikling:
 - manglende determinisme
@@ -343,7 +336,9 @@ De KI-relaterte utfordringene i prosjektet var ikke tilfeldige — de illustrere
 Alt dette understreker hvorfor KI best fungerer som en assistent per nå, ikke en autonom utvikler.
 Prosjektet gjorde svært tydelig hvor viktig kritisk vurdering, prompt-design, iterasjon og menneskelig kvalitetskontroll er når KI blir brukt i arbeidsprosesser som tradisjonelt krever presisjon.
 ---
+
 ## 4. Kritisk vurdering av KI sin påvirkning
+
 ### 4.1 Fordeler med KI-assistanse
 
 **Effektivitet og produktivitet**
@@ -358,7 +353,6 @@ Eksempler på oppgaver som gikk mye raskere:
 Samlet sett førte KI-assistanse til en vesentlig reduksjon i utviklingstid og gjorde det mulig å komme fra idé til fungerende prototype på relativt kort tid.
 
 **Læring og forståelse**
-
 Prosjektet ga en uventet sterk læringseffekt, fordi KI fungerte som en aktiv mentor gjennom hele prosessen. I stedet for å kun følge tutorials, fikk jeg forklaringer direkte knyttet til min egen kode. Det gjorde forståelsen mer relevant og anvendbar.
 
 Jeg lærte spesielt mye om:
@@ -417,7 +411,6 @@ Når man får et ferdig forslag med én gang, hopper man lett over å tenke på 
 Dette kan gjøre utvikleren mer passiv hvis man ikke aktivt forsøker å forstå og utfordre løsningene modellen foreslår.
 
 **Misforståelser og kontekttap**
-
 KI-modeller mister ofte konteksten eller glemmer tidligere instruksjoner, noe som fører til misforståelser — særlig i lengre utviklingsløp.
 
 Eksempler:
@@ -439,7 +432,6 @@ Full utvikling av hele React-frontend uten forslag til komponentstruktur, props,
 KI tok i praksis over ansvaret for roller som arkitekt, programmerer, feilsøker og designer, og gjorde at arbeidet kunne gå direkte fra idé til implementering uten omfattende research i forkant. Uten KI ville startfasen vært preget av mye mer dokumentasjonslesing, planlegging og strukturell utvikling før noe kunne testes.
 
 **Flere deler av prosjektet ville vært betydelig mer krevende uten KI:**
-
 1. Integrasjon mot Gemini API
 
 Dokumentasjonen for Gemini er omfattende, og modellnavn, URL-struktur og responsformat er komplekst.
@@ -479,7 +471,6 @@ Selv om mye ville vært mer krevende, finnes det også områder hvor arbeidet ku
 - Når man skriver alt selv, har man full kontroll — noe som KI noen ganger kompliserer.
 
 **Ville sluttresultatet vært bedre eller dårligere?**
-
 På kort sikt:
 Sluttresultatet ville sannsynligvis vært dårligere uten KI, eller i beste fall veldig mye mindre omfattende.
 Det er lite realistisk å rekke både full backend, full frontend og full AI-integrasjon på samme tid innenfor tidsrammen uten KI.
@@ -500,6 +491,7 @@ KI var en nettoppositiv kraft i prosjektet. Den økte tempoet, støttet læringe
 ---
 
 ## 5. Etiske implikasjoner
+
 ### 5.1 Ansvar og eierskap
 Selv om KI bidro med forslag og kode gjennom hele prosjektet, ligger det endelige ansvaret for løsningen hos meg som utvikler. KI fungerer som et støtteverktøy, men den har ikke forståelse for prosjektets kontekst, krav eller konsekvenser av valgene som tas. Det er derfor mitt ansvar å kontrollere, teste og validere alt innhold før det tas i bruk.
 
@@ -561,6 +553,7 @@ Dette handler ikke bare om teknisk sikkerhet, men også om ansvarlig profesjonel
 
 ---
 ## 6. Teknologiske implikasjoner
+
 ### 6.1 Kodekvalitet og vedlikehold
 KI-generert kode kan være effektiv å produsere, men den skaper særskilte utfordringer for langsiktig vedlikehold. Selv om KI ofte skriver syntaktisk korrekt kode, er den ikke alltid strukturert med tanke på lesbarhet, konsistens eller skalerbarhet. Dette kan gi teknisk gjeld på sikt dersom utvikleren kun implementerer løsninger uten å forstå dem.
 
@@ -586,6 +579,7 @@ Jeg anbefaler å bruke KI som et støtteverktøy – ikke som en autopilot. Man 
 
 ---
 ## 7. Konklusjon og læring
+
 ### 7.1 Viktigste lærdommer
 1. KI er et kraftig verktøy – men krever kritisk vurdering.
 Jeg erfarte at KI kan lage raske løsninger, men også feil og misforståelser som jeg måtte oppdage selv.
@@ -677,9 +671,9 @@ Jeg opplevde jeg at KI kan senke barrierer og gjøre det lettere å utforske nye
 ---
 ## 8. Vedlegg (valgfritt)
 - Skjermbilder av applikasjonen
-- Lenke til GitHub repository
+- Lenke til GitHub repository: https://github.com/IBE160/SG-Haugvik.git
 - Annen relevant dokumentasjon
 ---
-**Ordantall:** [Ca. antall ord]
+**Ordantall:** [ca 6500]
 **Forventet lengde:** 3000-5000 ord (avhengig av gruppestørrelse og prosjektets
 kompleksitet)

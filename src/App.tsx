@@ -1,55 +1,82 @@
-// src/App.tsx
 import { useState } from "react";
 import PreferenceSelector from "./components/PreferenceSelector";
 import RecipeInput from "./components/RecipeInput";
+import AiButton from "./components/AiButton";
 import RecipeResults from "./components/RecipeResults";
 
-export default function App() {
+// 💡 Samme type som backend svarer med (server.js)
+export type Ingredient = {
+  item: string;
+  quantity: string;
+  notes: string;
+};
+
+export type RecipeResultData = {
+  time: number;
+  ingredients: Ingredient[];
+  steps: string[];
+};
+
+function App() {
   const [preferences, setPreferences] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string>("");
-  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const generate = async () => {
+  // 👉 ÉN oppskrift om gangen (ikke liste ennå)
+  const [recipe, setRecipe] = useState<RecipeResultData | null>(null);
+
+  const generateRecipes = async () => {
     try {
-      const res = await fetch("http://localhost:3001/api/ai-suggest", {
+      setLoading(true);
+
+      const response = await fetch("http://localhost:3001/api/ai-suggest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ preferences, ingredients }),
+        body: JSON.stringify({
+          preferences,
+          ingredients,
+        }),
       });
 
-      const data = await res.json();
-      console.log("FRONTEND RESULT:", data);
-      setResult(data);
-    } catch (err) {
-      console.error("FEIL I FRONTEND:", err);
+      if (!response.ok) {
+        console.error("Feil fra server:", response.statusText);
+        setRecipe(null);
+        return;
+      }
+
+      const data = await response.json();
+      // 🔥 Forventer { time, ingredients: [...], steps: [...] }
+      setRecipe(data);
+    } catch (error) {
+      console.error("AI fetch error:", error);
+      setRecipe(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>KidChef 👩‍🍳🔍</h1>
+    <div className="p-6 max-w-2xl mx-auto">
+      <h1 className="text-4xl font-bold text-blue-500 mb-4">
+        KidChef 🍳👩‍🍳
+      </h1>
 
-      <PreferenceSelector selected={preferences} onChange={setPreferences} />
+      <PreferenceSelector
+        selected={preferences}
+        onChange={setPreferences}
+      />
 
-      <RecipeInput value={ingredients} onChange={setIngredients} />
+      <RecipeInput
+        value={ingredients}
+        onChange={setIngredients}
+      />
 
-      <button
-        onClick={generate}
-        style={{
-          marginTop: "20px",
-          padding: "15px",
-          background: "#9330ff",
-          color: "white",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        Generer middager med KI 🔍✨
-      </button>
+      <AiButton onGenerate={generateRecipes} loading={loading} />
 
-      <div style={{ marginTop: "20px" }}>
-        {result ? <RecipeResults result={result} /> : <p>Ingen data</p>}
-      </div>
+      {/* Vis kun hvis vi faktisk har en oppskrift */}
+      {recipe && <RecipeResults result={recipe} />}
     </div>
   );
 }
+
+export default App;
