@@ -1,125 +1,113 @@
+🍳 KidChef – AI-basert middagsassistent
 
-KidChef – AI-basert middagsgenerator 
+KidChef er en enkel og brukervennlig webapplikasjon som genererer barnevennlige middagstips basert på brukerens preferanser og ingredienser.
+Appen bruker Google Gemini som KI-motor, og er bygget med React + TypeScript (frontend) og Node.js + Express (backend).
 
-KidChef er en brukervennlig webapplikasjon som genererer barnevennlige middagstips basert på brukerens preferanser og ingredienser. Appen bruker Google Gemini som KI-motor og er bygget med React + TypeScript (frontend) og Node.js + Express (backend).
+Hovedmålet er å gjøre matlaging tilgjengelig og motiverende for barn, samtidig som prosjektet demonstrerer hvordan moderne KI kan brukes både i utviklingsprosessen og i selve applikasjonen.
 
-Funksjoner
+🌟 Funksjoner
 
-Velg preferanser (quick, pasta, chicken, vegetarian, something new)
+Velg matpreferanser (quick, pasta, chicken, vegetarian, something new)
 
-Skriv inn ingredienser du har tilgjengelig
+Skriv inn ingredienser du har hjemme
 
-Få AI-genererte middagsforslag
+Generer AI-baserte oppskrifter med:
 
-Inkluderer ingrediensliste og steg-for-steg-instruksjoner
+📝 Ingrediensliste
 
-Robust håndtering av JSON fra Gemini
+👣 Steg-for-steg fremgangsmåte
 
-Teknologistack
+⏱️ Estimert tid
+
+Robust håndtering av ustrukturerte AI-svar fra Gemini
+
+Full frontend–backend kommunikasjon
+
+🛠️ Teknologistack
+
 Frontend
-
-React
-
-TypeScript
-
-Vite
+- React
+- TypeScript
+- Vite
 
 Backend
+- Node.js
+- Express
+- Google Generative AI (Gemini 2.5 Flash)
 
-Node.js
+Verktøy
+- Visual Studio Code
+- Git & GitHub
+- Google AI Studio
+- Browser DevTools
 
-Express
-
-Google Gemini (gemini-2.5-flash)
-
-Utviklingsverktøy
-
-VS Code
-
-Git & GitHub
-
-Browser DevTools
-
-Installasjon
-1. Klon prosjektet
-
-git clone https://github.com/
-<ditt-brukernavn>/kidchef-app.git
-cd kidchef-app
-
-2. Installer avhengigheter
-
-npm install
-
-3. Opprett .env
-
-Lag en .env i rotmappen:
-
-GEMINI_API_KEY=DIN_API_NOKKEL
-PORT=3001
-
-4. Start applikasjonen
-
-Backend:
-npm run server
-
-Frontend:
-npm run dev
-
-Frontend kjører på: http://localhost:5173
-
-Backend kjører på: http://localhost:3001
-
-Prosjektstruktur
-
+📂 Prosjektstruktur
 kidchef-app/
-├── server.js
+│
+├── public/               # Static assets
 ├── src/
-│ ├── components/
-│ ├── pages/
-│ ├── App.tsx
-│ └── main.tsx
+│   ├── components/       # React-komponenter
+│   ├── pages/            # (valgfritt) fremtidige sider
+│   └── main.tsx          # Inngangspunkt frontend
+│
+├── server.js             # Express backend + Gemini-integrasjon
 ├── package.json
-├── .env
+├── vite.config.ts
 └── README.md
 
-Hvordan KI brukes
+🚀 Slik kjører du prosjektet lokalt
+1. Klon repoet
+git clone https://github.com/IBE160/SG-Haugvik.git
+cd SG-Haugvik/kidchef-app
 
-Backend sender prompt til Gemini
+2. Installer avhengigheter
+npm install
 
-Gemini genererer oppskrift
+3. Legg inn Gemini API-nøkkel
 
-Backend henter ut JSON og validerer
+Opprett en .env-fil:
 
-Frontend viser oppskrift med ingredienser og steg
+GEMINI_API_KEY=DIN_API_NØKKEL_HER
 
-Vanlige problemer
-Gemini returnerer ikke gyldig JSON
+4. Start backend
+node server.js
 
-Backend løser det ved å hente teksten mellom første { og siste }.
 
-Modellfeil (404)
+Backend kjører nå på:
+👉 http://localhost:3001
 
-Bruk riktig modellnavn:
-gemini-2.5-flash
+5. Start frontend
+npm run dev
 
-CORS-feil
 
-Backend må ha:
+Frontend kjører vanligvis på:
+👉 http://localhost:5173
 
-app.use(cors({ origin: "http://localhost:5173
-" }));
+📌 Status & videre arbeid
 
-Videre arbeid
+Dette prosjektet er fortsatt under utvikling. Neste steg:
 
-Favorittoppskrifter
+Legge til flere preferanser og kategorier
 
-Flere preferanser
+Forbedre UI/UX for barn
 
-Bedre UI
+Modulere backend i egne ruter
 
-Hosting på GitHub Pages eller Vercel
+Validering av input og bedre feilhåndtering
 
-Lisens
+Hosting via Vercel / Netlify / GitHub Pages
 
-MIT License.
+📚 Om prosjektet
+
+Prosjektet er en del av IBE160 – Programmering med KI.
+I utviklingen ble KI brukt aktivt som:
+
+Analytiker
+
+Arkitekt
+
+Programmerer
+
+Sparringspartner
+
+Dette README-dokumentet dekker det sensorene trenger for å forstå og kjøre prosjektet.
