@@ -18,26 +18,39 @@ app.post("/api/ai-suggest", async (req, res) => {
   try {
     const { preferences, ingredients } = req.body;
 
-    // 🔥 NY SUPERSTRIKT PROMPT – 2 RETTER + NAVN ER PÅBUDT
+    // 🌟 NY SUPER-PROMPT – BARNESPRÅK, ENKLE RETTER, TO FORSLAG, ALLE MÅ HA NAVN
     const prompt = `
 You MUST reply ONLY with valid JSON.
 
-Generate EXACTLY two recipes. 
-Each recipe MUST include ALL of these fields:
+Generate EXACTLY two very simple, kid-friendly recipes.
+
+INGREDIENT RULES:
+- You may use ONLY ingredients from this list: ${ingredients.join(", ")}.
+- Each recipe should use between 1 and 3 of the selected ingredients (NOT all of them).
+- If an extra ingredient is absolutely needed (like salt, pepper, butter), include it under "notes" and mark it as OPTIONAL.
+- NEVER add new main ingredients that the user did not select.
+
+STYLE RULES:
+- NO fancy dishes.
+- NO pasta unless user explicitly selected pasta.
+- Make super simple dishes suitable for children (ex: "Eggerøre", "Omelett", "Ostesmørbrød", "Melke-pannekake").
+- Keep steps very short and easy.
+
+JSON STRUCTURE (MANDATORY):
 
 {
   "recipes": [
     {
-      "name": "Dish name (mandatory!)",
-      "time": 20,
+      "name": "Dish name",
+      "time": 10,
       "ingredients": [
         { "item": "text", "quantity": "text", "notes": "text" }
       ],
       "steps": ["text step 1", "text step 2"]
     },
     {
-      "name": "Dish name (mandatory!)",
-      "time": 20,
+      "name": "Dish name",
+      "time": 10,
       "ingredients": [
         { "item": "text", "quantity": "text", "notes": "text" }
       ],
@@ -46,18 +59,13 @@ Each recipe MUST include ALL of these fields:
   ]
 }
 
-STRICT RULES:
-- BOTH recipes MUST include a "name".
-- Names must be real dish names, not generic text.
-- NO markdown.
-- NO code blocks.
-- NO explanations.
-- NO text outside the JSON.
+STRICT OUTPUT RULES:
+- MUST include "name" for each recipe.
+- MUST NOT output markdown or code blocks.
+- MUST NOT output any text outside the JSON object.
 - ONLY raw JSON.
-
-User preferences: ${preferences.join(", ")}
-Selected ingredients: ${ingredients.join(", ")}
 `;
+
 
     const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -66,7 +74,7 @@ Selected ingredients: ${ingredients.join(", ")}
       return res.status(500).json({ error: "Server mangler API-nøkkel" });
     }
 
-    // 🔥 GEMINI API – REST KALL
+    // GEMINI API VIA REST
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
@@ -92,7 +100,7 @@ Selected ingredients: ${ingredients.join(", ")}
       return res.status(500).json({ error: "AI returned no text" });
     }
 
-    // 🔥 EKSTRAKSJON AV JSON
+    // JSON EKSTRAKSJON
     const start = text.indexOf("{");
     const end = text.lastIndexOf("}");
 
@@ -112,7 +120,7 @@ Selected ingredients: ${ingredients.join(", ")}
       return res.status(500).json({ error: "AI returned invalid JSON" });
     }
 
-    // 🔥 VALIDERING – MÅ HA 2 RETTER + NAVN
+    // VALIDATION
     if (!json.recipes || json.recipes.length !== 2) {
       return res.status(500).json({ error: "AI returned wrong recipe count" });
     }
@@ -126,7 +134,6 @@ Selected ingredients: ${ingredients.join(", ")}
       }
     }
 
-    // ALT OK
     return res.json(json);
 
   } catch (error) {
@@ -135,7 +142,7 @@ Selected ingredients: ${ingredients.join(", ")}
   }
 });
 
-// 🚀 START SERVER
+// START SERVER
 app.listen(3001, () =>
   console.log("✅ Backend kjører på http://localhost:3001")
 );

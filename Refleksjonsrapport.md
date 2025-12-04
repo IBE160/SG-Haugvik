@@ -13,10 +13,6 @@
 
 ### 2.1 Oversikt over prosjektet
 I dette prosjektet utviklet jeg en enkel og brukervennlig webapplikasjon kalt KidChef, som genererer barnevennlige middagstips ved hjelp av kunstig intelligens. Brukeren kan velge ulike preferanser (for eksempel quick, pasta, chicken eller vegetarian), skrive inn ingredienser de allerede har hjemme, og deretter få et AI-generert middagstips med både ingrediensliste og steg-for-steg-instruksjoner. 
-(feature til selve appen:
-1. er at de får opp 3 forskjellige alternativer, så de kan velge hvilken av de de vil lage
-2. Mer bilder
-3. At de kan spør ai hvis de lurer på spørsmål)
 
 I tillegg til å utforske KI-drevet utvikling var et viktig mål å lage et verktøy som senker terskelen for barn og unge til å delta på kjøkkenet. Målet var å bidra til økt selvstendighet, mestringsfølelse og kreativitet, ved at appen gir trygge, tydelige og tilgjengelige instrukser som gjør matlaging mindre skummelt og mer motiverende for barn.
 
@@ -216,24 +212,27 @@ Løsning:
 Etter omfattende feilsøking fant jeg ut at problemet skyldtes at OneDrive låste filer mens Vite forsøkte å lese/skrive dem. Løsningen var å flytte hele prosjektet ut av OneDrive og inn i en lokal mappe på C:\–disk. Etter dette fungerte node_modules, Tailwind og Vite umiddelbart uten feil.
 
 KI sin rolle:
-KI bidro til å identifisere OneDrive som en potensiell årsak, noe jeg aldri ville tenkt på selv fordi feilene så tilfeldige ut. KI foreslo å flytte prosjektet lokalt, og dette viste seg å være avgjørende for at alt fungerte. Uten KI ville denne feilen sannsynligvis tatt svært mye lenger tid å oppdage og løse.
+KI bidro til å identifisere OneDrive som en potensiell årsak, noe jeg aldri ville tenkt på selv fordi feilene så tilfeldige ut. KI foreslo å flytte prosjektet lokalt, og dette viste seg å være avgjørende for at alt fungerte. Uten KI ville denne feilen sannsynligvis tatt svært mye lenger tid å oppdage og løse. Dette viste en viktig begrensning: KI forstår ikke målgruppen uten svært tydelige rammer, og kan lett generere kreative, men urealistiske forslag.
 
-**Utfordring 2: [Parsing-kollapset]**
-- Problem: 
-Når backend sendte prompt til Gemini-modellen, svarte modellen ofte med JSON pakket inn i markdown-blokker, kode-format, kommentarer eller ekstra tekst. 
-og enkelte ganger tekst før og etter selve objektet.  
-Dette gjorde at `JSON.parse()` i Node førte til runtime-feil:  “Unexpected token '`' … is not valid JSON”
-Feilen stoppet hele backend-ruten og gjorde applikasjonen ubrukelig.
+**Utfordring 2: [Fancy-forslag]**
+KI foreslo retter som var for avanserte eller urealistiske for barn
 
-- Løsningen ble å implementere en robust parser som:  
-* henter ut *kun* innhold mellom første `{` og siste `}`  
-* ignorerer alt markdown-relatert  
-* validerer JSON-blokken før parsing  
-Dette “bulletproofet” responsen slik at uansett hva KI returnerte, ble det omgjort til gyldig JSON.
+En utfordring oppstod da jeg testet applikasjonen og så at Gemini stadig foreslo for avanserte eller lite barnevennlige retter. Den brukte ofte alle ingrediensene jeg skrev inn, selv om kombinasjonen ikke ga mening, eller den foreslo retter som «kremet pasta med trøffel» selv når bare egg og ost var valgt. Dette viste en kjent svakhet ved store språkmodeller: de prioriterer kreativitet fremfor praktisk gjennomførbarhet.
 
-- KI sin rolle: 
-KI var både årsaken og løsningen.  
-Den skapte problemet ved å være uforutsigbar, men hjalp meg også å designe en failsafe strategi. Gjennom iterativ dialog utviklet jeg en parser som tok høyde for KI-modellers svakheter. Dette ga god innsikt i hvorfor man aldri kan stole blindt på KI-formatert tekst i produksjonssystemer.
+Løsning:
+
+Jeg måtte gjøre prompten langt mer presis. Jeg innførte strenge regler:
+- Rettene måtte være enkle, barnevennlige og korte
+- Modellen fikk kun bruke 1–3 av ingrediensene som ble valgt
+- Den fikk ikke lov til å finne på nye ingredienser, bortsett fra småting markert som OPTIONAL (f.eks. salt eller smør)
+- Fancy retter ble eksplisitt forbudt
+- Navn på retten ble påbudt
+- JSON-strukturen ble strammet inn ytterligere
+
+Dette førte til at Gemini begynte å levere mer realistiske, enkle oppskrifter som faktisk passer for målgruppen.
+
+KI sin rolle:
+KI bidro til å iterere frem promptreglene, men problemet var også et resultat av at modellen er vanskelig å styre uten svært presise instruksjoner. Jeg lærte at god prompt-engineering er avgjørende når man vil ha en bestemt stil, tone eller vanskelighetsgrad. Denne prosessen ga meg en mye dypere forståelse av hvordan LLM-er må “rammes inn” for å gi brukerrelevant output.
 
 **Utfordring 3: [404]**
 Problem:
@@ -391,7 +390,6 @@ Selv når KI foreslo “feil” kode, førte det til diskusjon og justeringer so
 ### 4.2 Begrensninger og ulemper
 
 **Kvalitet og pålitelighet:**
-Kvalitet og pålitelighet:
 En av de største utfordringene var at KI ikke alltid leverte korrekt eller fungerende kode. Selv med identiske prompts kunne output variere betydelig, noe som gjorde utviklingen mindre forutsigbar. Dette skapte flere konkrete problemer:
 
 - Feil modellnavn i Gemini API, som førte til gjentatte 404-feil fordi KI foreslo modeller som ikke eksisterte eller ikke støttet generateContent.
@@ -431,6 +429,9 @@ Eksempler:
 - KI glemte hvilke props som fantes og foreslo nye som ikke eksisterte.
 
 Dette førte til frustrasjon og ekstra arbeid, og demonstrerte at KI fortsatt har begrensninger når det gjelder konsistens i større prosjekter.
+
+**Begrensning:** 
+KI-modellen produserte ofte retter som var for avanserte eller upraktiske for barn, og brukte alle ingrediensene jeg oppga – selv når det ikke ga mening. Dette krevde at jeg laget en mye strengere prompt med klare regler for enkelhet, antall ingredienser og stil. Dette viser en viktig begrensning: KI forstår ikke målgruppen uten eksplisitt styring, og kan lett generere kreative, men urealistiske løsninger.
 
 ### 4.3 Sammenligning: Med og uten KI
 Å sammenligne utviklingsprosessen med og uten KI synliggjør tydelig hvordan moderne språkmodeller endrer både arbeidsflyt, læringsprosess og sluttresultatet. KidChef-prosjektet kunne i teorien vært gjennomført uten KI, men det ville vært en helt annen type oppgave og langt mer tidkrevende – spesielt siden prosjektet brukte både frontend, backend, API-integrasjoner og asynkron kommunikasjon. 
@@ -530,7 +531,7 @@ Over tid kan dette føre til en kompetanseprofil der man “vet hvordan man bruk
 Det er derfor avgjørende å etablere en bevisst balanse: bruke KI som en mentor, ikke en krykke. KI bør være et verktøy som styrker egen læring — ikke et som gradvis erstatter den. Den langsiktige alvorligheten ligger i at manglende grunnkompetanse kan begrense videre utvikling, faglig selvstendighet og evnen til å ta komplekse vurderinger senere i karrieren.
 
 ### 5.4 Arbeidsmarkedet
-Utbredt KI-bruk vil trolig endre IT-rollen, men ikke fjerne den (værtfall ikke enda). Rutinepregede oppgaver blir automatisert, mens roller som krever analyse, vurdering, domeneforståelse og kvalitetssikring blir viktigere.
+Utbredt KI-bruk vil trolig endre IT-rollen, men ikke fjerne den. Rutinepregede oppgaver blir automatisert, mens roller som krever analyse, vurdering, domeneforståelse og kvalitetssikring blir viktigere.
 
 Utviklere vil i større grad jobbe som “problemløsere og arkitekter” enn som rene kodeprodusenter. Å kunne samarbeide effektivt med KI-modeller blir derfor en nøkkelferdighet. Samtidig vil behovet for kritisk tenkning og evnen til å evaluere KI-forslag øke.
 
@@ -595,7 +596,6 @@ Jeg anbefaler å bruke KI som et støtteverktøy – ikke som en autopilot. Man 
 Jeg erfarte at KI kan lage raske løsninger, men også feil og misforståelser som jeg måtte oppdage selv.
 2. God kontekst gir gode resultater.
 Kvaliteten på KI-generert kode var direkte avhengig av hvor presist jeg beskrev problemet og hvor godt jeg forstår det jeg beskriver. 
-3. Alt jeg ikke forstår, spør Ai om hvorfor den vil løse det slik. det gir enorm mye læring. 
 4. Debugging er fortsatt en menneskelig oppgave.
 Selv om KI kan foreslå løsninger, må utvikleren forstå hva som skjer i systemet, lese feilmeldinger og strukturere prosjektet riktig.
 5. Utviklingsprosessen blir mer iterativ.
@@ -604,6 +604,8 @@ I stedet for lange planleggingsfaser jobbet jeg i små, raske sykluser hvor KI f
 Arkitektur, kvalitet og sikkerhet må fortsatt sikres av utvikleren, selv om KI hjelper til i utførelsen.
 7. Stabilitet krever at utvikleren overstyrer KI når nødvendig.
 Etter at KI foreslo flere modellnavn som ga 404-feil i Gemini API, måtte jeg selv finne riktig modell via ListModels og endre backend fra SDK til ren REST– fordi det var den eneste stabile løsningen.
+8. KI må styres hardt for å tilpasse seg målgruppen.
+Da appen begynte å generere egne oppskrifter, ble det tydelig at KI ofte foreslår løsninger som ikke passer målgruppen. Den lagde avanserte eller urealistiske retter selv basert på få og enkle ingredienser. Dette lærte meg hvor viktig det er å bruke klare begrensninger og regler i prompten, slik at KI faktisk leverer det som er relevant for brukeren — ikke det som er kreativt eller fancy.
 
 ### 7.2 Hva ville dere gjort annerledes?
 
@@ -670,13 +672,13 @@ Det gjør refleksjonsdelen enklere og forbedrer egen læring.
 
 ### 7.4 Personlig refleksjon (individuelt)
 **[Anette Haugvik]:**
-Jeg har jobbet noen år i utviklingsprosjekt som både funskjonell resurss og teknisk. jeg går mer og mer over i tekninsk. Men å kombinere den erfaringen og med AI nå, det er veldig nyttig, og gjennom dette prosjektet har jeg lært enda mer om dette. 
+Jeg har jobbet noen år i utviklingsprosjekt som både funskjonell resurss og teknisk. jeg går mer og mer over i teknisk. Men å kombinere den erfaringen og med AI nå, det er veldig nyttig, og gjennom dette prosjektet har jeg lært enda mer om dette. 
 
 Gjennom dette prosjektet har jeg opplevd hvordan KI både kan være en ekstremt nyttig samarbeidspartner og en kilde til frustrasjon. Jeg lærte at utvikling med KI ikke handler om å trykke “generate code”, men om dialog, presisjon og forståelse. 
 
 Jeg fikk også mye praktisk erfaring med React, Express, API-integrasjon og JSON-håndtering – langt mer enn jeg ville fått uten KI fordi jeg måtte forstå hvorfor ting ikke fungerte. Det var krevende, men veldig lærerikt.
 
-Jeg opplevde jeg at KI kan senke barrierer og gjøre det lettere å utforske nye teknologier.
+jeg opplevde at KI kan senke barrierer og gjøre det lettere å utforske nye teknologier.
 
 
 
