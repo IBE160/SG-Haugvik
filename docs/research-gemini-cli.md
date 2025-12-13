@@ -1,109 +1,114 @@
-# Research – Teknisk analyse av Gemini REST API
+# Research – Teknisk analyse av Gemini CLI
 
 ## Workflow-status
 Prosjekt: ibe160 (Level 3 software)  
-BMAD-fase: Analyse
+BMAD-fase: Analyse 
 Aktiv workflow: research-project   
 
 ---
 
 ## Formål med analysen
-Jeg ønsker å gjøre en teknisk analyse av bruken av **Gemini REST API** som en mulig KI-integrasjon i backend-delen av prosjektet.
+Jeg ønsker å gjøre en teknisk analyse av bruken av **Gemini CLI** som et KI-basert verktøy for støtte i utviklingsprosessen i prosjektet.
 
-Analysen ser på hvordan et API-basert KI-grensesnitt kan inngå i dataflyten mellom frontend og backend i KidChef,
-der brukerinput sendes til en KI-tjeneste, og et generert svar behandles før det presenteres for sluttbruker.
+Analysen tar for seg hvordan Gemini CLI kan brukes til å:
+- utforske og reflektere rundt problemstillinger i prosjektet
+- støtte arbeid med tekst, kode og struktur
+- fungere som et hjelpemiddel i utviklingsarbeidet rundt applikasjonen
 
-Formålet er å forstå hvilke egenskaper en API-basert integrasjon gir, og hvilke konsekvenser dette har for struktur, kontroll og ansvar i backend,
-uten å ta stilling til endelig teknologivalg.
 
 ---
 
 ## Kontekst for vurderingen
-KidChef er en webapplikasjon der brukeren skal legge inn ingredienser og mottar en KI-generert oppskrift som respons.
+Utviklingsprosessen består av:
+- idéutvikling og avklaring av funksjonalitet
+- arbeid med både frontend- og backend-kode
+- strukturering av krav, flyt og tekniske valg
+- bruk av KI som støtte i analyse og refleksjon
 
-For å støtte denne flyten må backend:
-- ta imot forespørsel fra frontend
-- sende brukerinput videre til en KI-tjeneste
-- motta et strukturert svar
-- returnere resultatet til frontend på en kontrollert måte
+I denne konteksten kan et CLI-basert KI-verktøy gi utvikler mulighet til å samhandle direkte med prosjektet via terminalen, uten behov for grafisk brukergrensesnitt.
 
-I denne konteksten vurderes Gemini REST API som en mulig løsning for kommunikasjon mellom applikasjon og KI-modell.
-
----
-
-## Hva er Gemini REST API
-Gemini REST API er et HTTP-basert grensesnitt som gir programmatisk tilgang til Gemini-modeller.
-
-I stedet for interaktiv dialog brukes API-et ved at:
-- applikasjonen sender forespørsler som JSON
-- KI-modellen returnerer strukturerte svar
-- kommunikasjonen styres av backend-kode
-
-Dette gjør API-et egnet for integrasjon i applikasjoner der KI brukes som en del av systemets funksjonalitet.
+Gemini CLI vurderes derfor som et mulig verktøy for å støtte utviklingsarbeidet rundt prosjektet, snarere enn som en del av selve applikasjonen.
 
 ---
 
-## Relevans for prosjektets backend-behov
-I KidChef skal backend fungere som et bindeledd mellom brukergrensesnittet og KI-tjenesten.
+## Hva er Gemini CLI
+Gemini CLI er et kommandolinjebasert verktøy som gir tilgang til Gemini-modeller direkte fra terminalen.
 
-Når brukeren sender inn ingredienser via frontend, må backend kunne motta forespørselen, strukturere input på en kontrollert måte,
-og sende dette videre til en KI-modell. Svaret fra KI må deretter behandles og returneres til frontend i et format som kan vises tydelig for brukeren.
+Verktøyet muliggjør tekstbasert dialog med KI, og kan brukes til blant annet:
+- analyse av problemstillinger
+- generering og gjennomgang av tekst og kode
+- refleksjon rundt løsninger og struktur
 
-Gemini REST API er relevant i denne sammenhengen fordi det gir en tydelig og forutsigbar måte å integrere KI som en del av applikasjonens funksjonelle flyt.
-
-
----
-
-## Struktur og kontroll i API-basert integrasjon
-En sentral egenskap ved API-basert KI-integrasjon er at utvikler har eksplisitt kontroll over hvordan KI brukes i applikasjonen.
-
-I KidChef innebærer dette at backend kan styre hvilken informasjon som sendes til KI,
-hvordan forespørselen bygges opp, og hvordan responsen håndteres før den når frontend.
-
-Denne typen kontroll er særlig viktig i applikasjoner der KI-generert innhold skal presenteres direkte til sluttbruker,
-og bidrar til en mer stabil og forutsigbar løsning.
-
+All interaksjon skjer via kommandoer i terminalen, uten grafisk grensesnitt.
 
 ---
 
-## Arbeidsform og utviklingsopplevelse
-Bruk av Gemini REST API innebærer en mer teknisk og kodeorientert arbeidsform enn chat- eller CLI-baserte løsninger.
+## Relevans for prosjektets utviklingsarbeid
+I KidChef-prosjektet er det behov for:
+- å formulere og avklare krav og funksjonalitet
+- å strukturere tekstbasert dokumentasjon
+- å reflektere rundt tekniske løsninger og arbeidsflyt
 
-Utvikleren må:
-- formulere presise forespørsler i kode
-- håndtere autentisering og konfigurasjon
-- implementere logikk for behandling av svar
+Gemini CLI kan i denne sammenhengen fungere som et støtteverktøy for utvikler, der KI brukes aktivt i dialogform for å utforske og videreutvikle idéer og løsninger.
 
-Dette gir mindre fleksibilitet i dialogform, men større forutsigbarhet og integrerbarhet i en applikasjon som skal fungere for sluttbruker.
+Dette gjør verktøyet relevant som del av utviklingsprosessen, selv om det ikke inngår direkte i applikasjonens runtime.
 
 ---
 
-## Sammenheng med andre KI-verktøy
-Sammenlignet med CLI- og chat-baserte KI-verktøy har Gemini REST API et annet bruksområde.
+## Arbeidsform med CLI-basert KI
+Bruk av Gemini CLI innebærer en arbeidsform der utvikler samhandler med KI direkte gjennom terminalen.
 
-Der CLI-verktøy i større grad støtter utviklingsprosess og utforskende arbeid, er REST API-et primært rettet mot bruk i selve applikasjonen,
-der KI inngår som en del av systemets funksjonelle flyt.
+Dette gir:
+- rask tilgang til KI uten kontekstbytte
+- mulighet for iterative spørsmål og justeringer
+- fleksibilitet i hvordan verktøyet brukes underveis
 
-Disse verktøyene dekker dermed ulike behov et KI-støttet utviklingsmiljø.
+Samtidig krever arbeidsformen at utvikler:
+- formulerer tydelige spørsmål og instruksjoner
+- aktivt vurderer kvaliteten på svarene
+- tar ansvar for hvordan output brukes videre
+
+---
+
+## Utvidede muligheter i utviklingsmiljø
+Gemini CLI kan også tilby mer avanserte funksjoner,
+som:
+- tilgang til filer i prosjektet
+- forslag til endringer i kode eller dokumentasjon
+- samspill med andre verktøy i utviklingsmiljøet
+
+Disse egenskapene gjør CLI-verktøyet relevant som en del av et moderne KI-støttet utviklingsmiljø, der KI fungerer som en aktiv medspiller i arbeidet.
+
+---
+
+## Styrker ved bruk av Gemini CLI
+En sentral styrke ved Gemini CLI er at verktøyet gir direkte tilgang til KI gjennom terminalen, uten behov for nettleser eller grafisk grensesnitt.
+Dette gjør det mulig å bruke KI som en naturlig del av utviklingsmiljøet, side om side med kode, filer og andre verktøy.
+
+I kontekst av KidChef-prosjektet innebærer dette at utvikler kan samhandle med KI samtidig som man arbeider med prosjektets struktur,
+kode og dokumentasjon, uten å forlate arbeidsflyten. Dialogen kan være iterativ og utforskende, og tilpasses underveis basert på behov i utviklingsprosessen.
+
+Gemini CLI skiller seg også fra rene chat-baserte KI-verktøy ved at det kan samhandle direkte med prosjektfiler. Verktøyet kan lese eksisterende filer, foreslå endringer i kode
+eller dokumentasjon, og bidra til å opprette eller justere filersom del av en arbeidsflyt. Dette gir CLI-verktøyet karakter av en utviklingsagent, snarere enn kun en samtalepartner.
+
+Disse egenskapene gjør Gemini CLI særlig relevant som støtteverktøy i et prosjekt der KI brukes aktivt i analyse, refleksjon og strukturering av løsningen.
+
 
 ---
 
 ## Utfordringer og hensyn
-Ved vurdering av Gemini REST API fremkommer også enkelte hensyn:
+Samtidig medfører CLI-basert KI-bruk enkelte hensyn:
 
-- krever mer teknisk oppsett enn chat- og CLI-løsninger
-- mindre egnet for utforskende dialog og refleksjon
-- krever eksplisitt håndtering av feil og responsstruktur
-- stiller krav til korrekt bruk av API-nøkler og konfigurasjon
+- verktøyet forutsetter teknisk forståelse hos bruker
+- all interaksjon er tekstbasert, uten visuell støtte
+- kvaliteten på svarene avhenger av hvordan spørsmål formuleres
+- verktøyet gir støtte, men ikke ferdige beslutninger
 
-Disse forholdene handler primært om integrasjon og teknisk ansvar i backend.
+Disse forholdene handler i hovedsak om arbeidsform og ansvar hos utvikler, ikke om verktøyets tekniske kapasitet.
 
 ---
 
 ## Vurdering
-Gemini REST API fremstår som en robust og strukturert måte å integrere KI-funksjonalitet i en webapplikasjon.
-
-Analysen viser at API-baserte løsninger gir god kontroll over dataflyt og integrasjon, og er særlig relevante i prosjekter der KI
-skal inngå som en del av applikasjonens funksjonelle arkitektur.
-
-Denne analysen bidrar til å forstå hvordan Gemini REST API kan brukes i KidChef-prosjektet, og danner grunnlag for videre tekniske vurderinger.
+Gemini CLI fremstår som et fleksibelt og kraftig KI-verktøy for støtte i utviklingsprosessen.
+Analysen viser at verktøyet kan bidra til utforskning, refleksjon og strukturering i arbeidet med KidChef-prosjektet,
+og gir innsikt i hvordan CLI-baserte KI-verktøy kan inngå som støtte i moderne systemutvikling.
