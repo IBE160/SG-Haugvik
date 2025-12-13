@@ -58,11 +58,12 @@ Prosjektet har et tydelig læringsfokus og er ikke ment som et ferdig kommersiel
 Brukerinput i KidChef skal være tilpasset målgruppen og baseres på enkel og trygg interaksjon fremfor fritekst.
 
 Systemet skal:
-- tillate bruker å velge ingredienser via  "Predefined selectable options"
-- presentere forslag til ingredienser som kan utvides og justeres over tid
-- sikre at brukerinput er strukturert og konsistent
-- håndtere enkel validering (f.eks. at minst én ingrediens er valgt)
-- sende strukturert input videre til backend for videre behandling
+- la bruker velge ingredienser via forhåndsdefinerte valgbrikker (chips)
+- gruppere ingredienser i kategorier for bedre oversikt
+- begrense antall valgte ingredienser til et definert intervall
+- gi tydelig tilbakemelding ved for få eller for mange valg
+- la bruker velge enkle preferanser via valgbrikker
+- sende strukturert og validert input videre til backend
 
 Som en mulig utvidelse kan løsningen støtte mer avansert input:
 - opplasting av bilde av ingrediens eller vare
