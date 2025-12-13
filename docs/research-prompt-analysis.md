@@ -69,6 +69,9 @@ Til slutt innebærer prompting også et vedlikeholdsansvar. Små endringer i pro
 ---
 
 ## Vurdering
-Prompt-design fremstår som en sentral del av løsningen i KidChef, selv om den ikke er synlig for sluttbruker. Kvaliteten på promptene har direkte innvirkning på hvor brukbar, forståelig og forutsigbar KI-funksjonaliteten blir.
+Prompt-design fremstår som en sentral del av løsningen i KidChef, selv om den ikke er direkte synlig for sluttbruker. Hvordan promptene utformes har stor betydning for om KI-genererte oppskrifter blir forståelige, trygge og tilpasset målgruppen, som i dette prosjektet hovedsakelig er barn.
 
-Analysen viser at bevisst og strukturert arbeid med prompting er avgjørende for å få KI til å fungere som en pålitelig del av applikasjonen, og ikke bare som en kreativ tekstgenerator. Dette gjør deep prompt-analyse til et naturlig og viktig element i analysefasen av prosjektet.
+For KidChef handler prompting ikke bare om å generere kreativ tekst, men om å styre KI-responsen slik at resultatet får en tydelig struktur, et enkelt språk og et passende nivå av detaljer. Uten bevisst arbeid med promptene kan svarene bli uforutsigbare, for lange eller språklig lite tilpasset barn, noe som svekker brukeropplevelsen og formålet med løsningen.
+
+Analysen viser derfor at strukturert og gjennomtenkt prompting er avgjørende for å gjøre KI-funksjonaliteten til en pålitelig del av applikasjonen, og ikke bare et eksperimentelt tillegg. Dette gjør analyse av prompt-design til et naturlig og viktig element i analysefasen av KidChef.
+
