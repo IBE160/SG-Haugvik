@@ -80,6 +80,10 @@ For å sikre en stabil brukeropplevelse benyttes følgende prinsipper:
 - Responsen håndteres og tilpasses før visning
 - Manglende eller ufullstendige felt håndteres kontrollert
 - Brukeren får enten gyldige oppskriftsforslag eller tydelig feilmelding
+- For å sikre enkle og barnevennlige resultater er KI-tjenesten instruert til å bruke et begrenset utvalg av de valgte 
+  ingrediensene per oppskrift.     
+  Selv om brukeren kan velge flere ingredienser i grensesnittet, skal hver oppskrift kun benytte 1–3 av disse. 
+  Dette er et bevisst arkitekturvalg for å   redusere kompleksitet og unngå urealistiske kombinasjoner.
 
 ---
 
