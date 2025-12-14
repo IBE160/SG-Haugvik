@@ -1,3 +1,21 @@
+//   server/server.js
+
+//**********************************************************************
+// server/server.js
+//
+// Express-backend for KidChef.
+// Ansvar:
+// - Eksponerer API-endepunktet POST /api/ai-suggest
+// - Bygger og sender prompt til Google Gemini via REST API
+// - Validerer og normaliserer KI-respons
+// - Returnerer strukturert JSON til frontend
+//
+// Inneholder bevisste begrensninger for MVP:
+// - Genererer nøyaktig 2 enkle, barnevennlige oppskrifter
+// - Bruker kun 1–3 av brukerens valgte ingredienser per oppskrift
+// - Ingen persistens eller autentisering
+//**********************************************************************
+
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";

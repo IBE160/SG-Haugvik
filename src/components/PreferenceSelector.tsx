@@ -1,5 +1,7 @@
 // src/components/PreferenceSelector.tsx
-
+//
+// Komponent for valg av preferanser (ikke aktiv i MVP).
+// Beholdt for mulig videreutvikling. 
 
 export interface PreferenceSelectorProps {
   selected: string[];

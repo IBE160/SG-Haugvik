@@ -1,4 +1,9 @@
-import React from "react";
+// src/components/RecipeInput.tsx
+
+//****************************************************************
+// Tekstfelt for manuell input av ingredienser (kommaseparert)
+//****************************************************************
+
 
 interface Props {
   value: string[];

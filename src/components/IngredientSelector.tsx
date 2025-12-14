@@ -1,5 +1,8 @@
 // src/components/IngredientSelector.tsx
-import React from "react";
+
+//****************************************************************
+// Viser og håndterer valg av ingredienser gruppert etter kategori
+//****************************************************************
 
 type Ingredient = {
   id: string;

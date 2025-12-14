@@ -1,3 +1,9 @@
+// src/App.tsx
+//*****************************************************************************************************
+// Hovedkomponent for KidChef.
+// Holder applikasjonstilstand og koordinerer samspill mellom UI-komponenter og backend (AI-generering).
+//******************************************************************************************************
+
 import { useState } from "react";
 import IngredientSelector from "./components/IngredientSelector";
 import AiButton from "./components/AiButton";
@@ -24,7 +30,7 @@ function App() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // 👉 Nå lagrer vi en LISTE av oppskrifter, ikke én
+  // Lagrer vi en LISTE av oppskrifter
   const [recipes, setRecipes] = useState<SingleRecipe[]>([]);
 
   const generateRecipes = async () => {

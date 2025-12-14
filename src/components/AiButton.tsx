@@ -1,4 +1,7 @@
 // src/components/AiButton.tsx
+//****************************************************************
+// Gjenbrukbar knapp for å starte KI-generering med lastetilstand
+//****************************************************************
 interface Props {
   onGenerate: () => void;
   loading: boolean;

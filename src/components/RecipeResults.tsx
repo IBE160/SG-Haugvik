@@ -1,3 +1,9 @@
+// src/components/RecipeResult.tsx
+
+//****************************************************************
+// Presentasjonskomponent for KI-genererte oppskrifter
+//****************************************************************
+
 import type { SingleRecipe } from "../App";
 
 type Props = {

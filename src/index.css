@@ -1,3 +1,6 @@
+/* src/index.css */
+/* Global styling og Tailwind-direktiver */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
