@@ -125,7 +125,8 @@ Disse funksjonene inngår ikke i MVP, men er viktige domeneinnsikter for videre 
 - Opplasting av bilde og KI-basert tolkning av ingrediens.
 - Utvidet ingrediensbibliotek med flere valg.
 - Mer styring av antall og type oppskrifter.
-- Enkel historikk eller favorittfunksjon uten brukerkonto.
+- brukerkonto.
+- Enkel lagring for å huske preferanser og tidligere valg.
 
 ---
 

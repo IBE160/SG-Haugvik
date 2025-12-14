@@ -80,7 +80,7 @@ Følgende funksjonalitet vurderes som utvidelser:
 - mer detaljerte KI-instruksjoner for bedre kvalitet
 - strengere krav til struktur og format i KI-responsen
 - visuelle forbedringer
-- ekstra brukerinnstillinger
+- ekstra brukerinnstillinger med enkel lagring som kan huske preferanser og tidligere valg
 - mer omfattende feilhåndtering
 
 Disse vurderes først etter at MVP er på plass.
