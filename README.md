@@ -37,7 +37,7 @@ Merk: Preferanseknapper er ikke aktive i nåværende versjon, men løsningen er 
 ---
 
 ## Prosjektstruktur
-
+```
 SG-Haugvik/
 ├── bm/ # BMAD-dokumentasjon (analyse, planlegging, utvikling)
 ├── docs/ # Supplerende dokumentasjon
@@ -46,7 +46,7 @@ SG-Haugvik/
 ├── api / server # Backend (Express + Gemini REST-integrasjon)
 ├── public/ # Statiske ressurser
 └── README.md
-
+```
 ---
 
 ## Slik kjører du prosjektet lokalt
